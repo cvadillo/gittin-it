@@ -1,6 +1,8 @@
 // DOM variables
 const issueContainerEl = document.querySelector("#issues-container");
 const limitWarningEl = document.querySelector("#limit-warning");
+const repoNameEl = document.querySelector("#repo-name");
+const queryString = document.location.search;
 
 const getRepoIssues = function(repo) {
 	// Set the variable for the URL that takes repo as an argument
@@ -22,7 +24,7 @@ const getRepoIssues = function(repo) {
 			});
 
 		} else {
-			alert("There was a problem with the request");
+			document.location.replace("./index.html");
 		}
 	});
 };
@@ -78,4 +80,15 @@ const displayWarning = function(repo) {
 	limitWarningEl.appendChild(linkEl);
 };
 
-getRepoIssues("facebook/react");
+const getRepoName = function () {
+	var repoName = queryString.split("=")[1];
+
+	if (repoName ) {
+		repoNameEl.textContent = repoName;
+		getRepoIssues(repoName);
+	} else {
+		document.location.replace("./index.html");
+	}
+}
+
+getRepoName();
