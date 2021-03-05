@@ -23,12 +23,22 @@
 
     <!-- Git Hub Search Form -->
     <div class="col-12 col-md-4">
+      <!-- User Search -->
       <div class="card">
         <h3 class="card-header text-uppercase">Search by User</h3>
         <form class="card-body" id="user-form">
           <label for="username" class="form-label">Username</label>
           <input name="username" type="text" autofocus="true" id="username" class="form-input">
           <button type="submit" class="btn">Get User</button>
+        </form>
+      </div>
+      <!-- Featured Repo Search -->
+      <div class="card">
+        <h3 class="card-header text-uppercase">Search by Topic</h3>
+        <form class="card-body" id="language-buttons">
+          <button type="submit" class="btn" data-language="javascript">JavaScript</button>
+          <button type="submit" class="btn" data-language="html">HTML</button>
+          <button type="submit" class="btn" data-language="css">CSS</button>
         </form>
       </div>
     </div>

@@ -3,6 +3,7 @@ const userFormEl = document.querySelector("#user-form");
 const nameInputEl = document.querySelector("#username");
 const repoContainerEl = document.querySelector('#repos-container');
 const repoSearchTermEl = document.querySelector('#repo-search-term');
+const languageButtonesEl = document.querySelector("#language-buttons");
 
 // Get the repo information from GitHub
 const getUserRepos = function(user) {
@@ -94,5 +95,32 @@ const displayRepos = function(repos, searchTerm) {
 	}
 };
 
+const getFeaturedRepos = function(language) {
+	var apiUrl = `https://api.github.com/search/repositories?q=${language}+is:featured&sort=help-wanted-issues`;
+
+	fetch(apiUrl).then(function(response) {
+		if (response.ok) {
+			response.json().then(function(data) {
+				displayRepos(data.items, language);
+			});
+		} else {
+			alert("Error: " + response.status);
+		}
+	});
+};
+
+const buttonClickHandler = function (event) {
+	event.preventDefault();
+	var language = event.target.getAttribute("data-language");
+	
+	if (language) {
+		getFeaturedRepos(language);
+		// clear old content
+		repoContainerEl.textContent = "";
+	}
+};
+
 // Event Handler to get the github user name
 userFormEl.addEventListener("submit", formSubmitHandler);
+
+languageButtonesEl.addEventListener("click", buttonClickHandler);
