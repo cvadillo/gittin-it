@@ -1,4 +1,6 @@
+// DOM variables
 const issueContainerEl = document.querySelector("#issues-container");
+const limitWarningEl = document.querySelector("#limit-warning");
 
 const getRepoIssues = function(repo) {
 	// Set the variable for the URL that takes repo as an argument
@@ -12,6 +14,11 @@ const getRepoIssues = function(repo) {
 			response.json().then(function(data) {
 				// Call display issues and show the data
 				displayIssues(data);
+
+				// Check if API has paginated issues
+				if (response.headers.get("Link")) {
+					displayWarning(repo);
+				}
 			});
 
 		} else {
@@ -58,4 +65,17 @@ const displayIssues = function(issues){
 	}
 };
 
-getRepoIssues("cvadillo/code-quiz");
+const displayWarning = function(repo) {
+	// add text to warning container
+	limitWarningEl.textContent = "To see more than 30 issues, visit ";
+
+	var linkEl = document.createElement("a");
+	linkEl.textContent = "See more issues on GitHub.com";
+	linkEl.setAttribute("href", `https://github.com/${repo}/issues`);
+	linkEl.setAttribute("target", "_blank");
+
+	// Append to warning container
+	limitWarningEl.appendChild(linkEl);
+};
+
+getRepoIssues("facebook/react");
